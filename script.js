@@ -32,9 +32,11 @@ function apiSearch(event) {
       let dataInfo = '';
       if(item.media_type !== 'person') dataInfo = `data-id="${item.id}" data-type="${item.media_type}"`;
       inner += `
-        <div class="col-3 item">
-        <img class="poster" src="${poster}" alt="${nameItem}" ${dataInfo}>
-        <h4>${nameItem}</h4>
+        <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+          <div class="item">
+            <img class="poster" src="${poster}" alt="${nameItem}" ${dataInfo}>
+            <h4>${nameItem}</h4>
+          </div>
         </div>
         `;
     });
@@ -93,16 +95,15 @@ function showFullInfo(){
       <p>Premiere: ${output.first_air_date || output.release_date}</p>
       ${(output.last_episode_to_air) ? `<p>${output.number_of_seasons} seasons ${output.last_episode_to_air.episode_number} series</p>` : ''}
       <p>Description: ${output.overview}</p>
-      <br>
-      <div class="youtube"></div>
+    </div>
+    <div class="col-12">
+      <div class="row youtube"></div>
     </div>
     `;
 
     getVideo(type, id);
- 
     
     // getVideo(this.dataset.type, this.dataset.id);
-
 
   })
   .catch(function(reason){
@@ -126,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function(){
     let inner = '<h2 class="col-12 text-center text-info">Trending Movies</h2>';
     if (output.results.length === 0) {
       inner = '<h2 class="col-12 text-center text-info">Movies not found</h2>';
-
     }
     
     output.results.forEach(function (item) {
@@ -135,9 +135,11 @@ document.addEventListener('DOMContentLoaded', function(){
       let poster = item.poster_path ? urlPoster + item.poster_path : './assets/images/noposter.jpg';
       let dataInfo = `data-id="${item.id}" data-type="${mediaType}"`;
       inner += `
-        <div class="col-3 item">
-        <img class="poster" src="${poster}" alt="${nameItem}" ${dataInfo}>
-        <h4>${nameItem}</h4>
+        <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+          <div class="item">
+            <img class="item__poster" src="${poster}" alt="${nameItem}" ${dataInfo}>
+            <h4 class="item__title">${nameItem}</h4>
+          </div>
         </div>
         `;
     });
@@ -162,13 +164,13 @@ function getVideo(type, id){
     return value.json();
   })
   .then(function(output) {
-    let videoFrame = '<h4 class="col-12 text-info">Video</h4>';
+    let videoFrame = '<h4 class="col-12 text-info text-center">Video</h4>';
     
     if(output.results.length === 0) {
       videoFrame = '<p>Video not found</p>';
     }
     output.results.forEach((item)=> {
-      videoFrame += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + item.key + '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      videoFrame += '<div class="col-12 col-md-6"><iframe width="100%" height="315" src="https://www.youtube.com/embed/' + item.key + '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
     });
     youtube.innerHTML = videoFrame;
   })
